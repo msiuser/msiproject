@@ -40,7 +40,7 @@
                 <property name="auxiliary;index" value="6"/>
                 <property name="auxiliary;wrapIn" value="6"/>
                 <property name="initialisationPolicy" value="INITIALISE_ONE"/>
-            </property-collection>
+            </property-collection >
         </properties>
     </global-element>
     <description></description>
