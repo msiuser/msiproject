@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+	<appender name="logfile" class="org.apache.log4j.RollingFileAppender">
+		<param name="Threshold" value="info" />
+		<param name="File" value="${mule.log.dir}/msi-app-1.0.log" />
+		<param name="MaxFileSize" value="5000KB" />
+		<!-- Keep one backup file -->
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p %c:%L - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="quietinfo" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="info" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+
+
+	<!-- Apache -->
+	<logger name="org.apache">
+		<level value="warn" />
+	</logger>
+
+	<!-- Spring -->
+	<logger name="org.springframework.beans.factory">
+		<level value="warn" />
+	</logger>
+
+	<!-- Mule -->
+	<logger name="org.mule">
+		<level value="info" />
+	</logger>
+	<logger name="org.mulesoft">
+		<level value="info" />
+	</logger>
+	<logger name="org.mule.lifecycle">
+		<level value="warn" />
+	</logger>
+	<logger name="org.mule.transport.service">
+		<level value="warn" />
+	</logger>
+	<logger name="org.mule.transport.jdbc">
+		<level value="warn" />
+	</logger>
+	<logger name="org.mule.transformer.simple.AddFlowVariableTransformer">
+		<level value="warn" />
+	</logger>
+	<logger name="org.mule.transformer.simple.AddSessionVariableTransformer">
+		<level value="warn" />
+	</logger>
+	<logger name="org.mule.routing.ExpressionSplitter">
+		<level value="error" />
+	</logger>
+	<logger name="org.mule.routing.CollectionSplitter">
+		<level value="error" />
+	</logger>
+	<logger name="org.mule.routing.Foreach$CollectionMapSplitter">
+		<level value="error" />
+	</logger>
+
+	<root>
+		<priority value="info" />
+		<appender-ref ref="quietinfo" />
+		<appender-ref ref="logfile" />
+	</root>
+</log4j:configuration>

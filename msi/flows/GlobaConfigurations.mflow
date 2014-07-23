@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="GlobalConfigurations">
+    <global-element name="Import" type="http://www.springframework.org/schema/beans/import" entity-id="Import#1">
+        <properties>
+            <property name="resource" value="classpath:case-create-update-1.0-JasyptPasswordEncryption.xml"/>
+            <property name="auxiliary;wrappedIn" value="beans@spring@http://www.springframework.org/schema/beans"/>
+            <property name="auxiliary;wrapIn" value="1"/>
+            <property name="auxiliary;index" value="2"/>
+        </properties>
+    </global-element>
+    <global-element name="Configuration" type="http://www.mulesoft.org/schema/mule/core/configuration" entity-id="Configuration#1">
+        <properties>
+            <property name="defaultExceptionStrategy-ref"/>
+            <property name="auxiliary;index" value="3"/>
+        </properties>
+    </global-element>
+    <global-element name="Salesforce" type="http://www.mulesoft.org/schema/mule/sfdc/config" entity-id="Salesforce#1">
+        <properties>
+            <property name="proxyUsername"/>
+            <property name="securityToken" value="SECURITYTOKEN"/>
+            <property name="proxyHost"/>
+            <property name="allowFieldTruncationSupport"/>
+            <property name="auxiliary;metauseMetaData"/>
+            <property name="assignmentRuleId"/>
+            <property name="proxyPort"/>
+            <property name="password" value="SFDCPASSWORD"/>
+            <property name="batchSobjectMaxDepth"/>
+            <property name="clientId"/>
+            <property name="url" value="https://test.salesforce.com/services/Soap/u/29.0"/>
+            <property name="username" value="SFDCUSERNAME"/>
+            <property name="useDefaultRule"/>
+            <property name="sessionId"/>
+            <property name="serviceEndpoint"/>
+            <property name="name" value="Salesforce"/>
+            <property name="timeObjectStore-ref"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="proxyPassword"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/connection-pooling-profile;0">
+                <property name="exhaustedAction" value="WHEN_EXHAUSTED_GROW"/>
+                <property name="auxiliary;index" value="6"/>
+                <property name="auxiliary;wrapIn" value="6"/>
+                <property name="initialisationPolicy" value="INITIALISE_ONE"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <description></description>
+</mule-configuration>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project name="setup-local-dev" default="build" basedir=".">	
+	<property environment="env"/>
+	<property name="project.dir" value="../../.." />
+	<property name="build.info.dir" value="../build-info" />
+	<property name="resource.dir" value="../resources" />
+	<property name="conf.dir" value="../conf" />
+
+	<target name="copy-config" description="Cleans out any existing configuration and copies in what we need.">
+		<delete>
+			<fileset dir="${resource.dir}" includes="*.properties" />
+		</delete>
+		<copy file="${conf.dir}/msi-1.0-local.properties" tofile="${resource.dir}/msi-1.0.properties" />
+		<copy file="${conf.dir}/msi-1.0-JasyptPasswordEncryption.xml" tofile="${resource.dir}/msi-1.0-JasyptPasswordEncryption.xml" />
+		<copy file="${conf.dir}/log4j.xml" tofile="${resource.dir}/log4j.xml" />
+	</target>
+
+	<target name="msi-clean" description="Cleans any old stuff in the project">
+		<exec dir="${project.dir}" executable="cmd.exe">
+			<arg value="/c" />
+			<arg value="mvn clean" />
+		</exec>
+	</target>
+
+	<target name="msi-eclipse" depends="msi-clean" description="Sets up classpath, etc. for Mule Studio import">
+		<exec dir="${project.dir}" executable="cmd.exe">
+			<arg value="/c" />
+			<arg value="mvn eclipse:eclipse" />
+		</exec>
+	</target>
+
+	<target name="msi-build" depends="msi-eclipse" description="cleans and builds">
+		<exec dir="${project.dir}" executable="cmd.exe">
+			<arg value="/c" />
+			<arg value="mvn install" />
+		</exec>
+	</target>
+
+	<target name="build" description="Compiles the default Maven lifecycle">
+		<antcall target="copy-config" />
+		<antcall target="msi-build" />
+	</target>
+
+</project>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
+
+
+	<!-- Property Files -->
+	<!-- The source error showing here is expected and is due to an outdated 
+		schema for Mule. It can be ignored. -->
+	<spring:beans>
+		<spring:import
+			resource="classpath:case-create-update-1.0-JasyptPasswordEncryption.xml" />
+	</spring:beans>
+
+
+	<!-- Default Threading Profiles -->
+	<configuration doc:name="Configuration">
+		<default-threading-profile doThreading="true"
+			maxThreadsActive="${threads.default.maxActive}" maxThreadsIdle="${threads.default.maxIdle}"
+			threadTTL="${threads.default.TTL}" poolExhaustedAction="WAIT"
+			threadWaitTimeout="${threads.default.timeout}" maxBufferSize="${threads.default.maxBuffer}" />
+	</configuration>
+
+	<!-- Proxy conf needs to be removed once the connection issue is resolved -->
+	<sfdc:config name="Salesforce" username="SFDCUSERNAME"
+		password="SFDCPASSWORD" securityToken="SECURITYTOKEN"
+		url="https://test.salesforce.com/services/Soap/u/29.0" doc:name="Salesforce">
+
+		<sfdc:connection-pooling-profile
+			initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW" />
+	</sfdc:config>
+</mule>
