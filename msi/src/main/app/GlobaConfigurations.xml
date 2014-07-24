@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+<mule xmlns:magento="http://www.mulesoft.org/schema/mule/magento" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
@@ -8,7 +8,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.mulesoft.org/schema/mule/magento http://www.mulesoft.org/schema/mule/magento/current/mule-magento.xsd">
 
 
 	<!-- Property Files -->
@@ -29,11 +30,14 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 	</configuration>
 
 	<!-- Proxy conf needs to be removed once the connection issue is resolved -->
-	<sfdc:config name="Salesforce" username="SFDCUSERNAME"
-		password="SFDCPASSWORD" securityToken="SECURITYTOKEN"
-		url="https://test.salesforce.com/services/Soap/u/29.0" doc:name="Salesforce">
+	<sfdc:config name="Salesforce" username="msiusersf@gmail.com"
+		password="password123" securityToken="xzhI9hHEJx2h2OHjn2I8sXIjO"
+		 doc:name="Salesforce">
 
 		<sfdc:connection-pooling-profile
 			initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW" />
 	</sfdc:config>
+    <magento:config name="Magento" username="badesreenu" password="Sreen!1982" address="http://localhost:9090/magento/index.php/api/v2_soap/index/" doc:name="Magento">
+        <magento:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+    </magento:config>
 </mule>
