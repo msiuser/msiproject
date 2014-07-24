@@ -16,10 +16,13 @@
 		<jdkName>JavaSE-1.6</jdkName>
 		<jdk.version>1.6</jdk.version>
 		<junit.version>4.9</junit.version>
-
+		<activeMQVersion>5.5.1</activeMQVersion>
+		<jasyptVersion>1.9.0</jasyptVersion>
+		<sfdcVersion>5.4.7</sfdcVersion>
 	</properties>
 
 	<build>
+	 <defaultGoal>package</defaultGoal>
 		<!-- Use a newer version of the install plugin than what your Maven uses 
 			by default. The older version failed to install the project if there was 
 			no target/classes folder. Since we use mule packaging on the project we actually 
@@ -61,13 +64,23 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<plugin>
+		   	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+            <plugin>
 				<groupId>org.mule.tools</groupId>
 				<artifactId>maven-mule-plugin</artifactId>
 				<version>1.9</version>
 				<extensions>true</extensions>
 				<configuration>
-					<copyToAppsDirectory>true</copyToAppsDirectory>
+					<copyToAppsDirectory>false</copyToAppsDirectory>
 					<inclusions>
 						<inclusion>
 							<groupId>org.mule.modules</groupId>
@@ -76,130 +89,34 @@
 					</inclusions>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-					<encoding>ISO-8859-1</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2.1</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>project</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>${eclipsePluginVersion}</version>
-				<configuration>
-					<!-- by default download all sources when generating project files -->
-					<downloadSources>true</downloadSources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>add-resource</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>add-resource</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<resources>
-						<resource>
-							<directory>src/main/app/</directory>
-						</resource>
-						<resource>
-							<directory>src/main/api/</directory>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<mainClass>org.mule.MuleServer</mainClass>
-					<arguments>
-						<argument>-config</argument>
-						<argument>src/main/app/mule-config.xml</argument>
-					</arguments>
-					<classpathScope>compile</classpathScope>
-				</configuration>
-			</plugin>
-
-			<!--Install clover-plugins -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.4</version>
-				<executions>
-					<execution>
-						<id>copy-clover-plugins</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<overWriteReleases>true</overWriteReleases>
-							<overWriteSnapshots>true</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-							<stripVersion>true</stripVersion>
-
-							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.cloveretl</groupId>
-									<artifactId>cloveretl-engine</artifactId>
-									<version>${mule.version}</version>
-									<type>zip</type>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<!-- Using an ant task to deflate cloveretl-engine.zip -->
-								<unzip dest="${project.build.testOutputDirectory}"
-									src="${project.build.testOutputDirectory}/cloveretl-engine.zip" />
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.3</version>              
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>findbugs-maven-plugin</artifactId>
+                        	<version>2.5.3</version>                    
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>            
+        </plugins>  
+        
+         <resources>
+            <!-- If we have any resources section, need this so that resources directory is in path for running in locally -->
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <!-- Perform filtering on everything in build-info directory to get timestamp -->
+            <resource>
+                <directory>src/main/build-info</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>       
+                         
 	</build>
 
 	<!-- plugins for creating site reports -->
@@ -411,22 +328,29 @@
 			<version>${mule.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.mule.modules</groupId>
-			<artifactId>mule-module-sfdc</artifactId>
-			<version>5.4.7</version>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+			<version>${activeMQVersion}</version>
+			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
-			<version>1.9.0</version>
+			<version>${jasyptVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt-spring3</artifactId>
-			<version>1.9.0</version>
+			<version>${jasyptVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-sfdc</artifactId>
+			<version>${sfdcVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
