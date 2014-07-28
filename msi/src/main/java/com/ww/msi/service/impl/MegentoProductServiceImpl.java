@@ -11,8 +11,8 @@ import org.mule.api.MuleEvent;
 import org.mule.api.annotations.expressions.Lookup;
 import org.mule.construct.Flow;
 
-import com.ww.mis.service.MegentoProductService;
-import com.ww.mis.util.CreateProductRequest;
+import com.ww.msi.service.MegentoProductService;
+import com.ww.msi.vo.CreateProductRequest;
 
 @Path("msi")
 public class MegentoProductServiceImpl implements MegentoProductService {
