@@ -3,4 +3,5 @@
     <name>msi</name>
     <description></description>
     <muleExtension name="Salesforce" qualifier="org.mule.tooling.ui.contribution.sfdc.3.5.0"/>
+    <muleExtension name="Magento" qualifier="org.mule.tooling.ui.contribution.magento.3.5.0"/>
 </mule-project>
