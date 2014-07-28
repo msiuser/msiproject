@@ -13,13 +13,10 @@ http://www.mulesoft.org/schema/mule/magento http://www.mulesoft.org/schema/mule/
 
 
 	<!-- Property Files -->
-	<!-- The source error showing here is expected and is due to an outdated 
-		schema for Mule. It can be ignored. -->
+	<!-- The source error showing here is expected and is due to an outdated schema for Mule. It can be ignored. -->
 	<spring:beans>
-		<spring:import
-			resource="classpath:msi-1.0-JasyptPasswordEncryption.xml" />
+		<spring:import resource="classpath:msi-1.0-JasyptPasswordEncryption.xml" />
 	</spring:beans>
-
 
 	<!-- Default Threading Profiles -->
 	<configuration doc:name="Configuration">
@@ -30,14 +27,10 @@ http://www.mulesoft.org/schema/mule/magento http://www.mulesoft.org/schema/mule/
 	</configuration>
 
 	<!-- Proxy conf needs to be removed once the connection issue is resolved -->
-	<sfdc:config name="Salesforce" username="msiusersf@gmail.com"
-		password="password123" securityToken="xzhI9hHEJx2h2OHjn2I8sXIjO"
-		 doc:name="Salesforce">
-
-		<sfdc:connection-pooling-profile
-			initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW" />
-	</sfdc:config>
-    <magento:config name="Magento" username="badesreenu" password="Sreen!1982" address="http://localhost:9090/magento/index.php/api/v2_soap/index/" doc:name="Magento">
+    <sfdc:config name="Salesforce" username="msiusersf@gmail.com" password="password123" securityToken="xzhI9hHEJx2h2OHjn2I8sXIjO" doc:name="Salesforce">
+        <sfdc:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+    </sfdc:config>
+    <magento:config name="Magento" username="badesreenu" password="Sreen!1982" address="http://10.0.1.59:9090/magento/index.php/api/v2_soap/index/" doc:name="Magento">
         <magento:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
     </magento:config>
 </mule>

@@ -23,7 +23,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
             <batch:step name="Batch_Step">
                 <data-mapper:transform doc:name="CustomerCustomerEntity To Contact" config-ref="CustomerCustomerEntity_To_Contact"/>
                 <batch:commit doc:name="Batch Commit" size="100">
-                    <sfdc:upsert-bulk config-ref="Salesforce" type="Contact" externalIdFieldName="MagnetoId_c" doc:name="Salesforce">
+                    <sfdc:upsert-bulk config-ref="Salesforce" type="Contact" externalIdFieldName="Email" doc:name="Salesforce">
                         <sfdc:objects ref="#[payload]"/>
                     </sfdc:upsert-bulk>
                 </batch:commit>
