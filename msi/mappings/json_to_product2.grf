@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph author="yuppala" created="Mon Jul 28 18:26:28 IST 2014" description="JSON To Product2" guiVersion="3.4.3.P" id="1406553443181" licenseCode="Unlicensed" licenseType="Unknown" modified="Mon Jul 28 18:26:28 IST 2014" modifiedBy="yuppala" name="JSON_To_Product2" preview-file="C:/Users/yuppala/Desktop/product.json" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="8ff0fa82-3fe4-46a1-b128-28266d6c099e">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" label="__id" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/price" containerType="SINGLE" label="price" name="price" type="string"/>
+<Field __index="1" __sourcePath="{}/object/status" containerType="SINGLE" label="status" name="status" type="string"/>
+<Field __index="2" __sourcePath="{}/object/description" containerType="SINGLE" label="description" name="description" type="string"/>
+<Field __index="3" __sourcePath="{}/object/name" containerType="SINGLE" label="name" name="name" type="string"/>
+<Field __index="4" __sourcePath="{}/object/categories" containerType="SINGLE" label="categories" name="categories" type="string"/>
+<Field __index="5" __sourcePath="{}/object/productId" containerType="SINGLE" label="productId" name="productId" type="string"/>
+<Field __sourcePath="{}/object/url_x005fkey" containerType="SINGLE" label="url_key" name="url_key" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/Product2" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="4b3cfa92-6b80-4eff-b6d8-a53245b1b3db">
+<Record fieldDelimiter="," name="Product2" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __implementationClass="java.lang.String" __index="7" __sourcePath="{}/Product2/CreatedById" containerType="SINGLE" label="CreatedById" name="CreatedById" type="string"/>
+<Field __dmType="Calendar" __implementationClass="java.util.Calendar" __index="8" __sourcePath="{}/Product2/CreatedDate" containerType="SINGLE" label="CreatedDate" name="CreatedDate" type="string"/>
+<Field __implementationClass="java.lang.String" __index="0" __sourcePath="{}/Product2/Description" containerType="SINGLE" label="Description" name="Description" type="string"/>
+<Field __index="9" __sourcePath="{}/Product2/Family" containerType="SINGLE" label="Family" name="Family" type="string"/>
+<Field __implementationClass="java.lang.String" __index="11" __sourcePath="{}/Product2/Id" containerType="SINGLE" label="Id" name="Id" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="5" __sourcePath="{}/Product2/IsActive" containerType="SINGLE" label="IsActive" name="IsActive" type="boolean"/>
+<Field __implementationClass="java.lang.Boolean" __index="10" __sourcePath="{}/Product2/IsDeleted" containerType="SINGLE" label="IsDeleted" name="IsDeleted" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="1" __sourcePath="{}/Product2/LastModifiedById" containerType="SINGLE" label="LastModifiedById" name="LastModifiedById" type="string"/>
+<Field __dmType="Calendar" __implementationClass="java.util.Calendar" __index="3" __sourcePath="{}/Product2/LastModifiedDate" containerType="SINGLE" label="LastModifiedDate" name="LastModifiedDate" type="string"/>
+<Field __implementationClass="java.lang.String" __index="13" __sourcePath="{}/Product2/MagentoId_x005f_x005fc" containerType="SINGLE" label="MagentoId__c" name="MagentoId__c" type="string"/>
+<Field __implementationClass="java.lang.String" __index="4" __sourcePath="{}/Product2/Name" containerType="SINGLE" label="Name" name="Name" type="string"/>
+<Field __implementationClass="java.lang.Number" __index="12" __sourcePath="{}/Product2/Price_x005f_x005fc" containerType="SINGLE" label="Price__c" name="Price__c" type="number"/>
+<Field __implementationClass="java.lang.String" __index="2" __sourcePath="{}/Product2/ProductCode" containerType="SINGLE" label="ProductCode" name="ProductCode" type="string"/>
+<Field __dmType="Calendar" __implementationClass="java.util.Calendar" __index="6" __sourcePath="{}/Product2/SystemModstamp" containerType="SINGLE" label="SystemModstamp" name="SystemModstamp" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" guiName="Foreach 'object' -&gt; 'Product2'" guiX="460" guiY="20" id="FOREACH_OBJECT_PRODUCT2" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.Description = input.description;
+output.Name = input.name;
+output.Price__c = (isnull(input.price) ? null : str2double(input.price));
+output.IsActive = (isnull(input.status) ? null : str2bool(input.status));
+output.Family = input.categories;
+output.MagentoId__c = input.productId;
+output.ProductCode = input.url_key;]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context outPort="0" sequenceField="__id" xpath="object">
+    <Mapping cloverField="price" trim="true" xpath="price"/>
+    <Mapping cloverField="status" trim="true" xpath="status"/>
+    <Mapping cloverField="description" trim="true" xpath="description"/>
+    <Mapping cloverField="name" trim="true" xpath="name"/>
+    <Mapping cloverField="categories" trim="true" xpath="categories"/>
+    <Mapping cloverField="productId" trim="true" xpath="productId"/>
+    <Mapping cloverField="url_key" trim="true" xpath="url_x005fkey"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:\Users\yuppala\Desktop\product.json]]></attr>
+</Node>
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Map&lt;k,v&gt; WRITER" guiX="900" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:collection clover:name="Product2" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
+  <item clover:inPort="0">
+    <Description clover:dataType="java.lang.String">$0.Description</Description>
+    <LastModifiedById clover:dataType="java.lang.String">$0.LastModifiedById</LastModifiedById>
+    <ProductCode clover:dataType="java.lang.String">$0.ProductCode</ProductCode>
+    <LastModifiedDate clover:dataType="java.util.Calendar">$0.LastModifiedDate</LastModifiedDate>
+    <Name clover:dataType="java.lang.String">$0.Name</Name>
+    <IsActive clover:dataType="java.lang.Boolean">$0.IsActive</IsActive>
+    <SystemModstamp clover:dataType="java.util.Calendar">$0.SystemModstamp</SystemModstamp>
+    <CreatedById clover:dataType="java.lang.String">$0.CreatedById</CreatedById>
+    <CreatedDate clover:dataType="java.util.Calendar">$0.CreatedDate</CreatedDate>
+    <Family>$0.Family</Family>
+    <IsDeleted clover:dataType="java.lang.Boolean">$0.IsDeleted</IsDeleted>
+    <Id clover:dataType="java.lang.String">$0.Id</Id>
+    <clover:element clover:name="Price__c" clover:dataType="java.lang.Number">$0.Price__c</clover:element>
+    <clover:element clover:name="MagentoId__c" clover:dataType="java.lang.String">$0.MagentoId__c</clover:element>
+  </item>
+</clover:collection>]]></attr>
+<attr name="__typeName"><![CDATA[Product2]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+<attr name="__connectorName"><![CDATA[Salesforce]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_OBJECT_PRODUCT2:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="4b3cfa92-6b80-4eff-b6d8-a53245b1b3db" outPort="Port 0 (out)" toNode="MAP_WRITER0:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="8ff0fa82-3fe4-46a1-b128-28266d6c099e" outPort="Port 0 (out)" toNode="FOREACH_OBJECT_PRODUCT2:0"/>
+</Phase>
+</Graph>
