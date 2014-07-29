@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP" path="msi/products"/>
         <logger message="Main flow invoked ...." level="INFO" doc:name="Logger"/>
         <scatter-gather doc:name="Scatter-Gather" timeout="6000">
-            <custom-aggregation-strategy class="MessageAggregationStrategy"/>
+            <custom-aggregation-strategy class="com.ww.aggregation.MessageAggregationStrategy"/>
             <threading-profile maxBufferSize="100"/>
             <processor-chain>
                 <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8089" path="msi/salesforce/products" method="POST" doc:name="HTTP"/>
@@ -18,10 +18,11 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
                 <logger message="########End of flow1 payload is :::::::::::::::::::: #[payload]" level="INFO" doc:name="Logger"/>
             </processor-chain>
             <processor-chain>
-                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8080" method="POST" doc:name="HTTP"/>
+                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8088" method="POST" doc:name="HTTP"/>
                 <json:json-to-object-transformer doc:name="JSON to Object"/>
                 <logger message="########End of flow2 payload is::::::::::::::  #[payload]" level="INFO" doc:name="Logger"/>
             </processor-chain>
+
         </scatter-gather>
       <!--   <object-to-string-transformer doc:name="Object to String"/> -->
         <logger message="End of the flow !!!!!!!!!!!!!!!!!!!!!!!" level="INFO" doc:name="Logger"/>
