@@ -150,7 +150,7 @@ output.__id = input.__id;
 output.Email = input.email;
 output.FirstName = input.firstname;
 output.LastName = input.lastname;
-output.Birthdate = (isnull(input.dob) ? null : str2calendar(input.dob,"yyyy/MM/dd"));
+output.Birthdate = (isnull(input.dob) ? null : str2calendar(input.dob,"yyyy-MM-dd"));
 output.MagentoId__c = input.customer_id;
 output.Salutation = input.prefix;]]></attr>
 </Node>
