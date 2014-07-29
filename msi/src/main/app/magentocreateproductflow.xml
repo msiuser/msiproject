@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:magento="http://www.mulesoft.org/schema/mule/magento" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:magento="http://www.mulesoft.org/schema/mule/magento" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/magento http://www.mulesoft.org/schema/mule/magento/current/mule-magento.xsd
 http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
@@ -10,19 +10,17 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
     <jms:activemq-connector name="Active_MQ" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/>
-    <sfdc:config name="Salesforce" username="msiusersf@gmail.com" password="password123" securityToken="xzhI9hHEJx2h2OHjn2I8sXIjO" doc:name="Salesforce">
-        <sfdc:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
-    </sfdc:config>
     <data-mapper:config name="json_to_product2" transformationGraphPath="json_to_product2.grf" doc:name="json_to_product2"/>
 
     <flow name="MagentoCreateProductMainFlow" doc:name="MagentoCreateProductMainFlow">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="9099" doc:name="HTTP"/>
         <jersey:resources doc:name="REST">
-            <component class="com.ww.mis.service.impl.MegentoProductServiceImpl"/>
+            <component class="com.ww.msi.service.impl.MegentoProductServiceImpl"/>
+
         </jersey:resources>
     </flow>
     <flow name="MagentoCreateProductSubFlow" doc:name="MagentoCreateProductSubFlow">
-        <magento:create-product type="simple" set="4" sku="#[payload.url_key]_SKU" storeViewIdOrCode="1" doc:name="Magento" config-ref="Magento">
+        <magento:create-product type="simple" set="4" sku="#[payload.url_key]_SKU" storeViewIdOrCode="1" doc:name="Magento" config-ref="">
             <magento:attributes name="#[payload.getName()]" description="#[payload.getDescription()]" status="#[payload.getStatus()]" visibility="Search" price="#[payload.getPrice()]"/>
         </magento:create-product>
         <logger message="Magento Response ------#[payload]" level="INFO" doc:name="Logger"/>
@@ -35,7 +33,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <flow name="SalesForceSyncFlow" doc:name="SalesForceSyncFlow">
         <jms:inbound-endpoint queue="amq_queue" doc:name="JMS"/>
         <data-mapper:transform config-ref="json_to_product2" doc:name="JSON To Product2"/>
-        <sfdc:create config-ref="Salesforce" type="Product2" doc:name="Salesforce"/>
+        <sfdc:create config-ref="Salesforce" type="Product2" doc:name="Salesforce">
+            <sfdc:objects ref="#[payload]"/>
+        </sfdc:create>
         <logger message="Response from sales force--------#[payload]" level="INFO" doc:name="Logger"/>
     </flow>
 </mule>
