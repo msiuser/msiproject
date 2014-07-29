@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="MagentoCreateProductFlow">
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="MagentoCreateProduct">
     <global-element name="Active MQ" type="org.mule.tooling.ui.modules.core.global.activemq.config" entity-id="Active MQ#1">
         <properties>
             <property name="jndiProviderUrl"/>
-            <property name="embeddedMode"/>
             <property name="redeliveryHandlerFactory-ref"/>
-            <property name="connectionFactory-ref"/>
-            <property name="maxRedelivery"/>
+            <property name="embeddedMode"/>
             <property name="durable"/>
+            <property name="maxRedelivery"/>
+            <property name="connectionFactory-ref"/>
             <property name="password"/>
             <property name="username"/>
             <property name="name" value="Active_MQ"/>
@@ -25,9 +25,9 @@
             <property name="dispatcherPoolFactory-ref"/>
             <property name="persistentDelivery"/>
             <property name="forceJndiDestinations"/>
+            <property name="specification"/>
             <property name="connectionFactoryJndiName"/>
             <property name="brokerURL" value="tcp://localhost:61616"/>
-            <property name="specification"/>
             <property name="jndiDestinations"/>
             <property name="honorQosHeaders"/>
             <property name="cacheJmsSessions"/>
@@ -37,18 +37,18 @@
     <global-element name="json_to_product2" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" entity-id="DataMapper#1">
         <properties>
             <property name="name" value="json_to_product2"/>
-            <property name="auxiliary;index" value="4"/>
             <property name="transformationGraphPath" value="json_to_product2.grf"/>
+            <property name="auxiliary;index" value="2"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="MagentoCreateProductMainFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="65626a20-74a2-467f-9b4c-5124646732cb">
+    <flow SubFlow="false" name="MagentoCreateProductMainFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="a9c26000-259c-45da-9d82-9736c48f0020">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;index" value="3"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -67,41 +67,41 @@
                     <property name="exchange-pattern" value="request-response"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="transformer-refs"/>
                     <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
                     <property name="address"/>
-                    <property name="path"/>
                     <property name="encoding"/>
+                    <property name="path"/>
                     <property name="responseTransformer-refs"/>
                     <property name="method"/>
                     <property name="user"/>
-                    <property name="auxiliary;index" value="6"/>
-                    <property name="responseTimeout"/>
                     <property name="mimeType"/>
+                    <property name="responseTimeout"/>
+                    <property name="auxiliary;index" value="4"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
             <pattern name="REST" type="http://www.mulesoft.org/schema/mule/jersey/resources" entity-id="REST#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
-                    <property name="updated"/>
-                    <property name="auxiliary;index" value="7"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/component;1656467572">
+                    <property name="auxiliary;index" value="5"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/component;0">
                         <property name="class" value="com.ww.msi.service.impl.MegentoProductServiceImpl"/>
+                        <property name="auxiliary;wrapIn" value="6"/>
+                        <property name="auxiliary;index" value="6"/>
                     </property-collection>
                 </properties>
-                <description></description>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="MagentoCreateProductSubFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="82cef002-1786-4270-9b39-c1d5c2d1e267">
+    <flow SubFlow="false" name="MagentoCreateProductSubFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="ed7a4aaf-111e-42df-b730-39eb21c210f0">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="7"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#2">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -116,10 +116,10 @@
                     <property name="storeViewIdOrCode" value="1"/>
                     <property name="type" value="simple"/>
                     <property name="sku" value="#[payload.url_key]_SKU"/>
-                    <property name="config-ref" value=""/>
+                    <property name="config-ref" value="Magento"/>
                     <property name="password" value=""/>
-                    <property name="auxiliary;index" value="10"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/magento/attributes;736416296">
+                    <property name="auxiliary;index" value="8"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/magento/attributes;272790194">
                         <property name="custom_design" value=""/>
                         <property name="special_to_date" value=""/>
                         <property name="custom_layout_update" value=""/>
@@ -136,7 +136,7 @@
                         <property name="description" value="#[payload.getDescription()]"/>
                         <property name="name" value="#[payload.getName()]"/>
                         <property name="url_key" value=""/>
-                        <property name="auxiliary;index" value="11"/>
+                        <property name="auxiliary;index" value="9"/>
                         <property name="websites-ref" value=""/>
                         <property name="useReference" value="false"/>
                         <property name="status" value="#[payload.getStatus()]"/>
@@ -149,16 +149,16 @@
                         <property name="meta_description" value=""/>
                         <property name="categories-ref" value=""/>
                         <property name="meta_title" value=""/>
-                        <property-collection name="@http://www.mulesoft.org/schema/mule/magento/additional_attributes;280834252">
+                        <property-collection name="@http://www.mulesoft.org/schema/mule/magento/additional_attributes;1430525477">
                             <property name="complex" value="false"/>
                             <property name="useReference" value="false"/>
                         </property-collection>
-                        <property-collection name="@http://www.mulesoft.org/schema/mule/magento/stock_data;1959700905">
+                        <property-collection name="@http://www.mulesoft.org/schema/mule/magento/stock_data;1762263774">
                             <property name="complex" value="false"/>
                             <property name="useReference" value="false"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/magento/create-product-additional-attributess;1000429211">
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/magento/create-product-additional-attributess;2054687860">
                         <property name="ref" value=""/>
                     </property-collection>
                 </properties>
@@ -170,19 +170,19 @@
                     <property name="message" value="Magento Response ------#[payload]"/>
                     <property name="category"/>
                     <property name="level" value="INFO"/>
-                    <property name="auxiliary;index" value="12"/>
+                    <property name="auxiliary;index" value="10"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="JmsPublishMessageFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="ffbb43e6-cfd8-4cda-90e3-500ce0e416ce">
+    <flow SubFlow="false" name="JmsPublishMessageFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="c32f13ab-a400-4d3b-ae67-10ec1a2b6b36">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="13"/>
+            <property name="auxiliary;index" value="11"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#3">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -192,7 +192,7 @@
                     <property name="message" value="#[payload]"/>
                     <property name="category"/>
                     <property name="level" value="INFO"/>
-                    <property name="auxiliary;index" value="14"/>
+                    <property name="auxiliary;index" value="12"/>
                 </properties>
             </pattern>
             <pattern name="Object to JSON" type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" entity-id="Object to JSON#1">
@@ -203,8 +203,8 @@
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
                     <property name="mapper-ref"/>
-                    <property name="auxiliary;index" value="15"/>
                     <property name="mimeType"/>
+                    <property name="auxiliary;index" value="13"/>
                 </properties>
             </pattern>
             <endpoint direction="Outbound" name="JMS" type="http://www.mulesoft.org/schema/mule/jms/endpoint" entity-id="JMS#1">
@@ -223,22 +223,22 @@
                     <property name="address"/>
                     <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
-                    <property name="auxiliary;index" value="16"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property name="auxiliary;index" value="14"/>
                     <property name="connector-ref" value="Active_MQ"/>
                 </properties>
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="SalesForceSyncFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="f7ea3dcc-24d0-4adf-b0d4-731bdb5d6900">
+    <flow SubFlow="false" name="SalesForceSyncFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="5b3ea470-c995-4024-80f9-bb49b2cf3b7e">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="17"/>
+            <property name="auxiliary;index" value="15"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#4">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -258,9 +258,9 @@
                     <property name="address"/>
                     <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
-                    <property name="auxiliary;index" value="18"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property name="auxiliary;index" value="16"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
@@ -268,39 +268,39 @@
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="returnClass"/>
-                    <property name="stream"/>
                     <property name="input-ref"/>
-                    <property name="target"/>
+                    <property name="stream"/>
                     <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/ee/data-mapper/transform"/>
-                    <property name="pipeSize"/>
+                    <property name="target"/>
                     <property name="config-ref" value="json_to_product2"/>
-                    <property name="auxiliary;index" value="19"/>
+                    <property name="pipeSize"/>
+                    <property name="auxiliary;index" value="17"/>
                 </properties>
             </pattern>
-            <pattern name="Salesforce" type="http://www.mulesoft.org/schema/mule/sfdc/sfdc-connector" entity-id="Salesforce#2">
+            <pattern name="Salesforce" type="http://www.mulesoft.org/schema/mule/sfdc/sfdc-connector" entity-id="Salesforce#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
-                    <property name="proxyUsername" value=""/>
-                    <property name="securityToken" value=""/>
-                    <property name="proxyHost" value=""/>
+                    <property name="proxyUsername"/>
+                    <property name="securityToken"/>
+                    <property name="proxyHost"/>
                     <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/sfdc/create"/>
-                    <property name="proxyPort" value="80"/>
+                    <property name="proxyPort"/>
                     <property name="type" value="Product2"/>
-                    <property name="password" value=""/>
-                    <property name="url" value=""/>
-                    <property name="username" value=""/>
-                    <property name="updated"/>
-                    <property name="sessionId" value=""/>
-                    <property name="serviceEndpoint" value=""/>
-                    <property name="accessTokenId" value=""/>
+                    <property name="password"/>
+                    <property name="url"/>
+                    <property name="username"/>
+                    <property name="sessionId"/>
+                    <property name="serviceEndpoint"/>
+                    <property name="accessTokenId"/>
                     <property name="config-ref" value="Salesforce"/>
-                    <property name="proxyPassword" value=""/>
-                    <property name="auxiliary;index" value="20"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/create-objectss;1">
+                    <property name="proxyPassword"/>
+                    <property name="auxiliary;index" value="18"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/create-objectss;0">
                         <property name="ref" value="#[payload]"/>
+                        <property name="auxiliary;wrapIn" value="19"/>
+                        <property name="auxiliary;index" value="19"/>
                     </property-collection>
                 </properties>
-                <description></description>
             </pattern>
             <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#3">
                 <graphicalData x="0" y="0" width="0" height="0"/>
@@ -308,7 +308,7 @@
                     <property name="message" value="Response from sales force--------#[payload]"/>
                     <property name="category"/>
                     <property name="level" value="INFO"/>
-                    <property name="auxiliary;index" value="21"/>
+                    <property name="auxiliary;index" value="20"/>
                 </properties>
             </pattern>
         </lane>

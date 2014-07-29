@@ -30,7 +30,7 @@ http://www.mulesoft.org/schema/mule/magento http://www.mulesoft.org/schema/mule/
     <sfdc:config name="Salesforce" username="msiusersf@gmail.com" password="password123" securityToken="xzhI9hHEJx2h2OHjn2I8sXIjO" doc:name="Salesforce">
         <sfdc:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
     </sfdc:config>
-    <magento:config name="Magento" username="badesreenu" password="Sreen!1982" address="http://10.0.1.59:9090/magento/index.php/api/v2_soap/index/" doc:name="Magento">
+    <magento:config name="Magento" username="msiusermagento" password="password123" address="http://10.0.2.67:8084/magento/index.php/api/v2_soap/index/" doc:name="Magento">
         <magento:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
     </magento:config>
 </mule>

@@ -20,7 +20,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         </jersey:resources>
     </flow>
     <flow name="MagentoCreateProductSubFlow" doc:name="MagentoCreateProductSubFlow">
-        <magento:create-product type="simple" set="4" sku="#[payload.url_key]_SKU" storeViewIdOrCode="1" doc:name="Magento" config-ref="">
+        <magento:create-product type="simple" set="4" sku="#[payload.url_key]_SKU" storeViewIdOrCode="1" doc:name="Magento" config-ref="Magento">
             <magento:attributes name="#[payload.getName()]" description="#[payload.getDescription()]" status="#[payload.getStatus()]" visibility="Search" price="#[payload.getPrice()]"/>
         </magento:create-product>
         <logger message="Magento Response ------#[payload]" level="INFO" doc:name="Logger"/>
