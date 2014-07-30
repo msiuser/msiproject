@@ -5,7 +5,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
     <flow name="SampleFlow1" doc:name="SampleFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8080" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8087" doc:name="HTTP"/>
         <logger message="Sample flow called !!!!!!!!!!!!!" level="INFO" doc:name="Logger"/>
         <sfdc:query config-ref="Salesforce" query="dsql:SELECT Name, Description, AccountNumber FROM Account" doc:name="Salesforce"/>
         <transformer ref="Object_to_JSON" doc:name="Transformer Reference"/>
