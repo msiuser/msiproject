@@ -1,4 +1,3 @@
-package com.ww.aggregation;
 import java.util.Iterator;
 
 import org.mule.DefaultMuleEvent;
