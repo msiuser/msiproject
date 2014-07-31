@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="sbade" created="Thu Jul 31 11:17:39 IST 2014" description="JSON To CustomerAddressEntityCreate" guiVersion="3.4.3.P" id="1406791901531" licenseCode="Unlicensed" licenseType="Unknown" modified="Thu Jul 31 11:17:39 IST 2014" modifiedBy="sbade" name="JSON_To_CustomerAddressEntityCreate" preview-file="C:/Users/sbade/Downloads/CustomerAddress.json" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="942794cc-83e7-4cae-a299-eab657bff44e">
+<Record fieldDelimiter="," name="CustomerAddressEntityCreate" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/city" containerType="SINGLE" label="city" name="city" type="string"/>
+<Field __index="1" __sourcePath="{}/object/company" containerType="SINGLE" label="company" name="company" type="string"/>
+<Field __index="2" __sourcePath="{}/object/country_id" containerType="SINGLE" label="country_id" name="country_id" type="string"/>
+<Field __index="3" __sourcePath="{}/object/fax" containerType="SINGLE" label="fax" name="fax" type="string"/>
+<Field __index="4" __sourcePath="{}/object/firstname" containerType="SINGLE" label="firstname" name="firstname" type="string"/>
+<Field __index="5" __sourcePath="{}/object/is_default_billing" containerType="SINGLE" label="is_default_billing" name="is_default_billing" type="boolean"/>
+<Field __index="6" __sourcePath="{}/object/is_default_shipping" containerType="SINGLE" label="is_default_shipping" name="is_default_shipping" type="boolean"/>
+<Field __index="7" __sourcePath="{}/object/lastname" containerType="SINGLE" label="lastname" name="lastname" type="string"/>
+<Field __index="8" __sourcePath="{}/object/middlename" containerType="SINGLE" label="middlename" name="middlename" type="string"/>
+<Field __index="9" __sourcePath="{}/object/postcode" containerType="SINGLE" label="postcode" name="postcode" type="string"/>
+<Field __index="10" __sourcePath="{}/object/prefix" containerType="SINGLE" label="prefix" name="prefix" type="string"/>
+<Field __index="11" __sourcePath="{}/object/region" containerType="SINGLE" label="region" name="region" type="string"/>
+<Field __index="12" __sourcePath="{}/object/region_id" containerType="SINGLE" label="region_id" name="region_id" type="integer"/>
+<Field __index="13" __sourcePath="{}/object/street" containerType="list" label="street" name="street" type="string"/>
+<Field __index="14" __sourcePath="{}/object/suffix" containerType="SINGLE" label="suffix" name="suffix" type="string"/>
+<Field __index="15" __sourcePath="{}/object/telephone" containerType="SINGLE" label="telephone" name="telephone" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="c003c150-649e-4834-8818-29e480e0bf7f">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" label="__id" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/FirstName" containerType="SINGLE" label="FirstName" name="FirstName" type="string"/>
+<Field __index="1" __sourcePath="{}/object/LastName" containerType="SINGLE" label="LastName" name="LastName" type="string"/>
+<Field __index="2" __sourcePath="{}/object/Street_x005fAddress" containerType="SINGLE" label="Street_Address" name="Street_Address" type="string"/>
+<Field __index="3" __sourcePath="{}/object/Zipcode" containerType="SINGLE" label="Zipcode" name="Zipcode" type="string"/>
+<Field __index="4" __sourcePath="{}/object/Email" containerType="SINGLE" label="Email" name="Email" type="string"/>
+<Field __index="5" __sourcePath="{}/object/city" containerType="SINGLE" label="city" name="city" type="string"/>
+<Field __index="6" __sourcePath="{}/object/company" containerType="SINGLE" label="company" name="company" type="string"/>
+<Field __index="7" __sourcePath="{}/object/country_x005fid" containerType="SINGLE" label="country_id" name="country_id" type="string"/>
+<Field __index="8" __sourcePath="{}/object/telephone" containerType="SINGLE" label="telephone" name="telephone" type="string"/>
+<Field __index="9" __sourcePath="{}/object/mode" containerType="SINGLE" label="mode" name="mode" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <city>$0.city</city>
+  <company>$0.company</company>
+  <clover:element clover:name="country_id">$0.country_id</clover:element>
+  <fax>$0.fax</fax>
+  <firstname>$0.firstname</firstname>
+  <clover:element clover:name="is_default_billing">$0.is_default_billing</clover:element>
+  <clover:element clover:name="is_default_shipping">$0.is_default_shipping</clover:element>
+  <lastname>$0.lastname</lastname>
+  <middlename>$0.middlename</middlename>
+  <postcode>$0.postcode</postcode>
+  <prefix>$0.prefix</prefix>
+  <region>$0.region</region>
+  <clover:element clover:name="region_id">$0.region_id</clover:element>
+  <clover:collection clover:name="street">$0.street</clover:collection>
+  <suffix>$0.suffix</suffix>
+  <telephone>$0.telephone</telephone>
+</object>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <typed-object-ref type-ref="com.magento.api.CustomerAddressEntityCreate"/>
+  <typed-object type="java.lang.Boolean"/>
+  <typed-object type="java.lang.Integer"/>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="com.magento.api.CustomerAddressEntityCreate">
+    <typed-object-ref name="city" type-ref="java.lang.String"/>
+    <typed-object-ref name="company" type-ref="java.lang.String"/>
+    <typed-object-ref name="country_id" type-ref="java.lang.String"/>
+    <typed-object-ref name="fax" type-ref="java.lang.String"/>
+    <typed-object-ref name="firstname" type-ref="java.lang.String"/>
+    <typed-object-ref name="is_default_billing" type-ref="java.lang.Boolean"/>
+    <typed-object-ref name="is_default_shipping" type-ref="java.lang.Boolean"/>
+    <typed-object-ref name="lastname" type-ref="java.lang.String"/>
+    <typed-object-ref name="middlename" type-ref="java.lang.String"/>
+    <typed-object-ref name="postcode" type-ref="java.lang.String"/>
+    <typed-object-ref name="prefix" type-ref="java.lang.String"/>
+    <typed-object-ref name="region" type-ref="java.lang.String"/>
+    <typed-object-ref name="region_id" type-ref="java.lang.Integer"/>
+    <schema-collection array="true" name="street">
+      <typed-object-ref type-ref="java.lang.String"/>
+    </schema-collection>
+    <typed-object-ref name="suffix" type-ref="java.lang.String"/>
+    <typed-object-ref name="telephone" type-ref="java.lang.String"/>
+  </typed-object>
+</schema-object>
+]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'object' -&gt; 'object'" guiX="460" guiY="20" id="FOREACH_OBJECT_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.firstname = input.FirstName;
+output.lastname = input.LastName;
+output.city = input.city;
+output.company = input.company;
+output.country_id = input.country_id;
+output.telephone = input.telephone;
+output.is_default_billing = (isnull(input.mode) ? null : str2bool(input.mode));
+output.postcode = input.Zipcode;
+output.street = [input.Street_Address];]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context outPort="0" sequenceField="__id" xpath="object">
+    <Mapping cloverField="FirstName" trim="true" xpath="FirstName"/>
+    <Mapping cloverField="LastName" trim="true" xpath="LastName"/>
+    <Mapping cloverField="Street_Address" trim="true" xpath="Street_x005fAddress"/>
+    <Mapping cloverField="Zipcode" trim="true" xpath="Zipcode"/>
+    <Mapping cloverField="Email" trim="true" xpath="Email"/>
+    <Mapping cloverField="city" trim="true" xpath="city"/>
+    <Mapping cloverField="company" trim="true" xpath="company"/>
+    <Mapping cloverField="country_id" trim="true" xpath="country_x005fid"/>
+    <Mapping cloverField="telephone" trim="true" xpath="telephone"/>
+    <Mapping cloverField="mode" trim="true" xpath="mode"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:\Users\sbade\Downloads\CustomerAddress.json]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_OBJECT_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="942794cc-83e7-4cae-a299-eab657bff44e" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="c003c150-649e-4834-8818-29e480e0bf7f" outPort="Port 0 (out)" toNode="FOREACH_OBJECT_OBJECT:0"/>
+</Phase>
+</Graph>
