@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:https="http://www.mulesoft.org/schema/mule/https"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+    <http:connector name="HTTP_HTTPS" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" doc:name="HTTP-HTTPS"/>
+
+   
+    
+    <flow name="FaviconFlow" doc:name="FaviconFlow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="${http.listenHost}" port="${http.listenPort}" connector-ref="HTTP_HTTPS" doc:name="HTTP"/>
+            
+        <message-filter doc:name="Filter favicon" doc:description="Drop the favicon browser request">
+            <not-filter>
+                <wildcard-filter pattern="*/favicon.ico" caseSensitive="false"/>
+            </not-filter>
+        </message-filter>
+    </flow>
+    
+</mule>
