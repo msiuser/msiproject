@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 
    
     
-    <flow name="FaviconFlow" doc:name="FaviconFlow">
+    <flow name="FavIconFilter" doc:name="FavIconFilter">
         <http:inbound-endpoint exchange-pattern="request-response" host="${http.listenHost}" port="${http.listenPort}" connector-ref="HTTP_HTTPS" doc:name="HTTP"/>
             
         <message-filter doc:name="Filter favicon" doc:description="Drop the favicon browser request">
