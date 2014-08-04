@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
     <batch:job name="MagentoSalesforceBatch1">
         <batch:input>
             <poll doc:name="Poll">
-                <fixed-frequency-scheduler frequency="6000" startDelay="60"/>
+                <fixed-frequency-scheduler frequency="${customer.frequency}" startDelay="${customer.start.delay}" timeUnit="MINUTES"/>
                 <watermark variable="nextSync" default-expression="2014-01-01T00:00:00.000Z"
                            doc:name="Get Next Sync Time" selector="MAX" selector-expression="#[payload.LastModifiedDate]"/>
                 <magento:list-customers config-ref="Magento" filter="dsql:SELECT customer_id,dob,email,firstname,lastname,prefix FROM CustomerCustomerEntity WHERE created_at &gt;= '#[flowVars[&quot;nextSync&quot;]]' ORDER BY updated_at ASC" doc:name="Magento"/>
