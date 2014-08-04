@@ -1,14 +1,9 @@
 package com.ww.aggregation;
-import java.util.Iterator;
-
 import org.mule.DefaultMuleEvent;
-import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleEvent;
 import org.mule.api.MuleException;
 import org.mule.api.routing.AggregationContext;
-import org.mule.api.store.ObjectStoreException;
 import org.mule.api.transformer.TransformerException;
-import org.mule.routing.AggregationException;
 import org.mule.routing.AggregationStrategy;
 
 

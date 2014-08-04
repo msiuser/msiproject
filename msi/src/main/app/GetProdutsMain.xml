@@ -7,18 +7,18 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
     <flow name="GetProdutsMainFlow1" doc:name="GetProdutsMainFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP" path="msi/products"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.main.listenPort}" doc:name="HTTP" path="msi/products"/>
         <logger message="Main flow invoked ...." level="INFO" doc:name="Logger"/>
         <scatter-gather doc:name="Scatter-Gather" timeout="6000">
             <custom-aggregation-strategy class="com.ww.aggregation.MessageAggregationStrategy"/>
             <threading-profile maxBufferSize="100"/>
             <processor-chain>
-                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8089" path="msi/salesforce/products" method="POST" doc:name="HTTP"/>
+                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.salesforce.listenPort}" path="msi/salesforce/products" method="POST" doc:name="HTTP"/>
                 <json:json-to-object-transformer doc:name="JSON to Object"/>
                 <logger message="########End of flow1 payload is :::::::::::::::::::: #[payload]" level="INFO" doc:name="Logger"/>
             </processor-chain>
             <processor-chain>
-                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8088" method="POST" doc:name="HTTP"/>
+                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.salesforce.listenPort}" method="POST"  doc:name="HTTP"/>
                 <json:json-to-object-transformer doc:name="JSON to Object"/>
                 <logger message="########End of flow2 payload is::::::::::::::  #[payload]" level="INFO" doc:name="Logger"/>
             </processor-chain>

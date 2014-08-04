@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <data-mapper:config name="json_to_product2" transformationGraphPath="json_to_product2.grf" doc:name="json_to_product2"/>
 
     <flow name="MagentoCreateProductMainFlow" doc:name="MagentoCreateProductMainFlow">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="9099" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.rest.listenPort}" doc:name="HTTP"/>
         <jersey:resources doc:name="REST">
             <component class="com.ww.msi.service.impl.MegentoProductServiceImpl"/>
 

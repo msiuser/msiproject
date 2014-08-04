@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
     <json:object-to-json-transformer name="Object_to_JSON" doc:name="Object to JSON"/>
     <flow name="GetProdutsFlow1" doc:name="GetProdutsFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8089" doc:name="HTTP" path="msi/salesforce/products"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.salesforce.listenPort}" doc:name="HTTP" path="msi/salesforce/products"/>
         <sfdc:query config-ref="Salesforce"  doc:name="Salesforce" query="dsql:SELECT  Name,Description,ProductCode  FROM Product2 "/>
         <transformer ref="Object_to_JSON" doc:name="Transformer Reference"/>
         <logger level="INFO" doc:name="Logger" message="end of GetProducts flow !!!!!!!!!"/>
