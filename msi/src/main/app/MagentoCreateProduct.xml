@@ -28,7 +28,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <flow name="JmsPublishMessageFlow" doc:name="JmsPublishMessageFlow">
         <logger message="#[payload]" level="INFO" doc:name="Logger"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
-        <jms:outbound-endpoint queue="${products.queue.name}" connector-ref="Active_MQ" doc:name="JMS"/>
+        <jms:outbound-endpoint queue="${products.queue.name}" connector-ref="ActiveMQ" doc:name="JMS"/>
     </flow>
     <flow name="SalesForceSyncFlow" doc:name="SalesForceSyncFlow">
         <jms:inbound-endpoint queue="${products.queue.name}" doc:name="JMS"/>
