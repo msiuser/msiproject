@@ -37,9 +37,9 @@
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.6.1/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-web/3.0.6.RELEASE/spring-web-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/microsoft/sqlserver/sqljdbc4/3.0/sqljdbc4-3.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/sshd/sshd-core/0.6.0/sshd-core-0.6.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/antlr/ST4/4.0.7/ST4-4.0.7.jar"/>
-	<!-- <classpathentry kind="lib" path="C:/Program Files/Java/jdk1.6.0_11/lib/tools.jar"/> -->
 	<classpathentry kind="var" path="M2_REPO/wsdl4j/wsdl4j/1.6.1/wsdl4j-1.6.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

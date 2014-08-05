@@ -26,6 +26,16 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 			threadTTL="${threads.default.TTL}" poolExhaustedAction="WAIT"
 			threadWaitTimeout="${threads.default.timeout}" maxBufferSize="${threads.default.maxBuffer}" />
 	</configuration>
+	
+	<!-- MS SQL Data Source -->
+	<spring:bean id="jdbcDataSource" name="Bean"
+			class="org.enhydra.jdbc.standard.StandardDataSource" destroy-method="shutdown"
+			doc:name="JDBCDataSourceBean">
+			<spring:property name="url"
+				value="jdbc:sqlserver://${mssql.db.host};databaseName=${mssql.db.name};user=${mssql.db.user};password=${mssql.db.password}" />
+			<spring:property name="driverName"
+				value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		</spring:bean>
 
 	<!-- Proxy conf needs to be removed once the connection issue is resolved -->
     <sfdc:config name="Salesforce" username="${sf.user}" password="${sf.password}" securityToken="${sf.securityToken}" doc:name="Salesforce">
