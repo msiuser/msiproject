@@ -9,7 +9,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-    <jms:activemq-connector name="Active_MQ" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/>
+
     <data-mapper:config name="json_to_product2" transformationGraphPath="json_to_product2.grf" doc:name="json_to_product2"/>
 
     <flow name="MagentoCreateProductMainFlow" doc:name="MagentoCreateProductMainFlow">
@@ -28,10 +28,10 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <flow name="JmsPublishMessageFlow" doc:name="JmsPublishMessageFlow">
         <logger message="#[payload]" level="INFO" doc:name="Logger"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
-        <jms:outbound-endpoint queue="amq_queue" connector-ref="Active_MQ" doc:name="JMS"/>
+        <jms:outbound-endpoint queue="${products.queue.name}" connector-ref="Active_MQ" doc:name="JMS"/>
     </flow>
     <flow name="SalesForceSyncFlow" doc:name="SalesForceSyncFlow">
-        <jms:inbound-endpoint queue="amq_queue" doc:name="JMS"/>
+        <jms:inbound-endpoint queue="${products.queue.name}" doc:name="JMS"/>
         <data-mapper:transform config-ref="json_to_product2" doc:name="JSON To Product2"/>
         <sfdc:create config-ref="Salesforce" type="Product2" doc:name="Salesforce">
             <sfdc:objects ref="#[payload]"/>
