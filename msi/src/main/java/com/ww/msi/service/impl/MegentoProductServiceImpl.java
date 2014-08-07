@@ -16,12 +16,12 @@ import com.ww.msi.vo.CreateProductRequest;
 
 @Path("msi")
 public class MegentoProductServiceImpl implements MegentoProductService {
-	
+
 	private static final String MAGENTO_FLOW_NAME = "MagentoCreateProductSubFlow";
-	private static final String JMS_FLOW_NAME ="JmsPublishMessageFlow";
+	private static final String JMS_FLOW_NAME = "JmsPublishMessageFlow";
 	@Lookup
 	MuleContext muleContext;
-	
+
 	public MuleContext getMuleContext() {
 		return muleContext;
 	}
@@ -35,21 +35,24 @@ public class MegentoProductServiceImpl implements MegentoProductService {
 	@Path("/createProduct")
 	@Consumes("application/json")
 	public String createProduct(String jsonObject) {
-		
+
 		Integer productId = null;
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			CreateProductRequest request = (CreateProductRequest) mapper.readValue(jsonObject, CreateProductRequest.class);
+			CreateProductRequest request = (CreateProductRequest) mapper
+					.readValue(jsonObject, CreateProductRequest.class);
 
-			Flow megentoflow = (Flow) muleContext.getRegistry().lookupFlowConstruct(MAGENTO_FLOW_NAME);
+			Flow magentoflow = (Flow) muleContext.getRegistry()
+					.lookupFlowConstruct(MAGENTO_FLOW_NAME);
 			MuleEvent muleEvent = RequestContext.getEvent();
 			muleEvent.getMessage().setPayload(request);
-			MuleEvent event = megentoflow.process(muleEvent);
+			MuleEvent event = magentoflow.process(muleEvent);
 
 			productId = (Integer) event.getMessage().getPayload();
 			request.setProductId(productId.toString());
 
-			Flow jmsflow = (Flow) muleContext.getRegistry().lookupFlowConstruct(JMS_FLOW_NAME);
+			Flow jmsflow = (Flow) muleContext.getRegistry()
+					.lookupFlowConstruct(JMS_FLOW_NAME);
 			muleEvent.getMessage().setPayload(request);
 			jmsflow.process(muleEvent);
 
