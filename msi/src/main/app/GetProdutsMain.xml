@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+<mule xmlns:magento="http://www.mulesoft.org/schema/mule/magento"
+	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/magento http://www.mulesoft.org/schema/mule/magento/current/mule-magento.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
-http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
-    <flow name="GetProdutsMainFlow1" doc:name="GetProdutsMainFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.main.listenPort}" doc:name="HTTP" path="msi/products"/>
-        <logger message="Main flow invoked ...." level="INFO" doc:name="Logger"/>
-        <scatter-gather doc:name="Scatter-Gather" timeout="6000">
-            <custom-aggregation-strategy class="com.ww.aggregation.MessageAggregationStrategy"/>
-            <threading-profile maxBufferSize="100"/>
-            <processor-chain>
-                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.salesforce.listenPort}" path="msi/salesforce/products" method="POST" doc:name="HTTP"/>
-                <json:json-to-object-transformer doc:name="JSON to Object"/>
-                <logger message="########End of flow1 payload is :::::::::::::::::::: #[payload]" level="INFO" doc:name="Logger"/>
-            </processor-chain>
-            <processor-chain>
-                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.salesforce.listenPort}" method="POST"  doc:name="HTTP"/>
-                <json:json-to-object-transformer doc:name="JSON to Object"/>
-                <logger message="########End of flow2 payload is::::::::::::::  #[payload]" level="INFO" doc:name="Logger"/>
-            </processor-chain>
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd">
+    <data-mapper:config name="JSON_To_Pojo" transformationGraphPath="json_to_pojo.grf" doc:name="JSON_To_Pojo"/>
+    <data-mapper:config name="JSON_To_Pojo_1" transformationGraphPath="json_to_pojo_1.grf" doc:name="JSON_To_Pojo_1"/>
 
-        </scatter-gather>
-      <!--   <object-to-string-transformer doc:name="Object to String"/> -->
-        <logger message="End of the flow !!!!!!!!!!!!!!!!!!!!!!!" level="INFO" doc:name="Logger"/>
-    </flow>
+	<flow name="GetProdutsMainFlow1" doc:name="GetProdutsMainFlow1">
+		<http:inbound-endpoint exchange-pattern="request-response"
+			host="localhost" port="${http.products.main.listenPort}" doc:name="HTTP"
+			path="msi/products" responseTimeout="50000" />
+		<logger message="Main flow invoked ...." level="INFO" doc:name="Logger" />
+		
+		<scatter-gather doc:name="Scatter-Gather" timeout="100000">
+			<custom-aggregation-strategy
+				class="com.ww.aggregation.MessageAggregationStrategy" />
+			<threading-profile maxBufferSize="1000" />
+            <processor-chain>
+                <flow-ref name="GetSFProductSubFlow" doc:name="Flow Reference"/>
+                <data-mapper:transform config-ref="JSON_To_Pojo_1" doc:name="JSON To Pojo"/>
+            </processor-chain>
+            <processor-chain>
+                <flow-ref name="GetMagentoProductsSubFlow" doc:name="Flow Reference"/>
+                <data-mapper:transform config-ref="JSON_To_Pojo" doc:name="JSON To Pojo"/>
+            </processor-chain>
+     	</scatter-gather>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+      <logger message="End of the flow !!!!!!!!!!!!!!!!!!!!!!! payload is @@@@@@@@@@@@@ #[message.payload]"
+			level="INFO" doc:name="Logger" />
+		<!-- <object-to-string-transformer doc:name="Object to String"/> -->
+	</flow>
 </mule>

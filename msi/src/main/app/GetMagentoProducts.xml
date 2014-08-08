@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:magento="http://www.mulesoft.org/schema/mule/magento" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+<mule xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" xmlns:magento="http://www.mulesoft.org/schema/mule/magento" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/magento http://www.mulesoft.org/schema/mule/magento/current/mule-magento.xsd
-http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
-    <flow name="GetMagentoProductsFlow1" doc:name="GetMagentoProductsFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8092" doc:name="HTTP"/>
-        <logger message="GetMegentoProducts flow started !!!!!!!!!!!!!!!" level="INFO" doc:name="Logger"/>
-        <magento:list-products config-ref="Magento" filter="dsql:SELECT name,product_id,sku FROM CatalogProductEntity" doc:name="Magento"/>
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd">
+    <flow name="GetMagentoProductsMainFlow" doc:name="GetMagentoProductsMainFlow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.magento.listenPort}" doc:name="HTTP" path="magento"/>
+        <jersey:resources doc:name="REST">
+            <component class="com.ww.msi.service.impl.GetProductsServiceImpl"/>
+        </jersey:resources>
+
+      <!-- <custom-interceptor class="com.ww.msi.interceptors.AuditLoggingInterceptor"/> -->
+
+    </flow>
+    <flow name="GetMagentoProductsSubFlow" doc:name="GetMagentoProductsSubFlow">
+        <magento:list-products config-ref="Magento" filter="dsql:SELECT name,product_id FROM CatalogProductEntity" doc:name="Magento"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
         <logger message="GetMagentoProducts flow ended !!!!!!!!!!!!!!!!1 and Payload is #[payload]" level="INFO" doc:name="Logger"/>
     </flow>

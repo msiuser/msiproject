@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
     <flow name="Rest_SalesforceFlow1" doc:name="Rest_SalesforceFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.salesforce.listenPort}" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.restsf.listenPort}" doc:name="HTTP"/>
         <jersey:resources doc:name="REST">
             <custom-interceptor class="com.ww.msi.interceptors.AuditLoggingInterceptor"></custom-interceptor>
             <component class="com.ww.msi.service.RestSalesforce"/>
