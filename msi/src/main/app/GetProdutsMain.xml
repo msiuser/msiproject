@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 
 	<flow name="GetProdutsMainFlow1" doc:name="GetProdutsMainFlow1">
 		<http:inbound-endpoint exchange-pattern="request-response"
-			host="localhost" port="${http.main.listenPort}" doc:name="HTTP"
+			host="localhost" port="${http.products.main.listenPort}" doc:name="HTTP"
 			path="msi/products" responseTimeout="50000" />
 		<logger message="Main flow invoked ...." level="INFO" doc:name="Logger" />
 		
