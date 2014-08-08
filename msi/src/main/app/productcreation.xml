@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <!-- <jms:activemq-connector name="Active_MQ" username="admin" password="admin" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/> -->
+   <!--  <sfdc:config name="Salesforce" username="msiusersf@gmail.com" password="password123" securityToken="xzhI9hHEJx2h2OHjn2I8sXIjO" doc:name="Salesforce"/> -->
+    <data-mapper:config name="JSON_To_List_Product2_" transformationGraphPath="json_to_list_product2_.grf" doc:name="JSON_To_List_Product2_"/>
+    <flow name="ProductCreationinsalesforce" doc:name="ProductCreationinsalesforce">
+        <jms:inbound-endpoint queue="amq" connector-ref="ActiveMQ" doc:name="JMS"/>
+        <logger message="#[message.payload]" level="INFO" doc:name="Logger"/>
+        <data-mapper:transform config-ref="JSON_To_List_Product2_" doc:name="JSON To List&lt;Product2&gt;"/>
+        <sfdc:create config-ref="Salesforce" type="Product2" doc:name="Salesforce">
+            <sfdc:objects ref="#[payload]"/>
+        </sfdc:create>
+        <logger message="Created" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>
