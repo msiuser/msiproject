@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 
 	<flow name="GetProdutsMainFlow1" doc:name="GetProdutsMainFlow1">
 		<http:inbound-endpoint exchange-pattern="request-response"
-			host="localhost" port="${http.products.main.listenPort}" doc:name="HTTP"
+			host="localhost" port="${http.main.listenPort}" doc:name="HTTP"
 			path="msi/products" responseTimeout="50000" />
 		<logger message="Main flow invoked ...." level="INFO" doc:name="Logger" />
 		
@@ -31,11 +31,11 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 			<threading-profile maxBufferSize="1000" />
             <processor-chain>
                 <flow-ref name="GetSFProductSubFlow" doc:name="Flow Reference"/>
-                <data-mapper:transform config-ref="JSON_To_Pojo_1" doc:name="JSON To Pojo"/>
+                <data-mapper:transform config-ref="JSON_To_Pojo" doc:name="JSON To Pojo"/>
             </processor-chain>
             <processor-chain>
                 <flow-ref name="GetMagentoProductsSubFlow" doc:name="Flow Reference"/>
-                <data-mapper:transform config-ref="JSON_To_Pojo" doc:name="JSON To Pojo"/>
+                <data-mapper:transform config-ref="JSON_To_Pojo_1" doc:name="JSON To Pojo"/>
             </processor-chain>
      	</scatter-gather>
         <json:object-to-json-transformer doc:name="Object to JSON"/>

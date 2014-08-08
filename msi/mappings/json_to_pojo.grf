@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="cgopireddy" created="Fri Aug 08 11:43:41 IST 2014" description="JSON To Pojo" guiVersion="3.4.3.P" id="1407495323541" licenseCode="Unlicensed" licenseType="Unknown" modified="Fri Aug 08 11:43:41 IST 2014" modifiedBy="cgopireddy" name="JSON_To_Pojo" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/list" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="e1ba0f80-57e4-4655-b9df-f3ef329749a6">
+<Record fieldDelimiter="," name="list" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/list/categories" containerType="SINGLE" label="categories" name="categories" type="string"/>
+<Field __index="1" __sourcePath="{}/list/description" containerType="SINGLE" label="description" name="description" type="string"/>
+<Field __index="2" __sourcePath="{}/list/name" containerType="SINGLE" label="name" name="name" type="string"/>
+<Field __index="3" __sourcePath="{}/list/price" containerType="SINGLE" label="price" name="price" type="string"/>
+<Field __index="4" __sourcePath="{}/list/productId" containerType="SINGLE" label="productId" name="productId" type="string"/>
+<Field __index="5" __sourcePath="{}/list/status" containerType="SINGLE" label="status" name="status" type="string"/>
+<Field __index="6" __sourcePath="{}/list/url_key" containerType="SINGLE" label="url_key" name="url_key" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/SalesForceJSON" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Input" id="78bffaff-5d81-4071-a51b-0fb9a161492b">
+<Record fieldDelimiter="," name="SalesForceJSON" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="1" __sourcePath="{}/SalesForceJSON/Name" containerType="SINGLE" label="Name" name="Name" type="string"/>
+<Field __index="0" __sourcePath="{}/SalesForceJSON/ProductCode" containerType="SINGLE" label="ProductCode" name="ProductCode" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:collection clover:name="list" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
+  <item clover:inPort="0">
+    <categories>$0.categories</categories>
+    <description>$0.description</description>
+    <name>$0.name</name>
+    <price>$0.price</price>
+    <productId>$0.productId</productId>
+    <status>$0.status</status>
+    <clover:element clover:name="url_key">$0.url_key</clover:element>
+  </item>
+</clover:collection>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <schema-collection>
+    <typed-object-ref type-ref="com.ww.msi.vo.CreateProductRequest"/>
+  </schema-collection>
+  <typed-object type="com.ww.msi.vo.CreateProductRequest">
+    <typed-object-ref name="categories" type-ref="java.lang.String"/>
+    <typed-object-ref name="description" type-ref="java.lang.String"/>
+    <typed-object-ref name="name" type-ref="java.lang.String"/>
+    <typed-object-ref name="price" type-ref="java.lang.String"/>
+    <typed-object-ref name="productId" type-ref="java.lang.String"/>
+    <typed-object-ref name="status" type-ref="java.lang.String"/>
+    <typed-object-ref name="url_key" type-ref="java.lang.String"/>
+  </typed-object>
+  <typed-object type="java.lang.String"/>
+</schema-object>
+]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'SalesForceJSON' -&gt; 'list'" guiX="460" guiY="20" id="FOREACH_SALES_FORCE_JSON_LIST" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.name = input.Name;
+output.productId = input.ProductCode;]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context outPort="0" sequenceField="__id" xpath="array">
+    <Mapping cloverField="Name" trim="true" xpath="Name"/>
+    <Mapping cloverField="ProductCode" trim="true" xpath="ProductCode"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_SALES_FORCE_JSON_LIST:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="e1ba0f80-57e4-4655-b9df-f3ef329749a6" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="78bffaff-5d81-4071-a51b-0fb9a161492b" outPort="Port 0 (out)" toNode="FOREACH_SALES_FORCE_JSON_LIST:0"/>
+</Phase>
+</Graph>
