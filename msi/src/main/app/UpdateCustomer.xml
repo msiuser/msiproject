@@ -9,11 +9,12 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
-  <!--   <jms:activemq-connector name="Active_MQ" username="admin" password="admin" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/> -->
-    <data-mapper:config name="JSON_To_List_Contact_" transformationGraphPath="json_to_list_contact_.grf" doc:name="JSON_To_List_Contact_"/>
+    <jms:activemq-connector name="Active_MQ" username="admin" password="admin" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/>
+<!--     <sfdc:config name="Salesforce" username="msiusersf@gmail.com" password="password123" securityToken="xzhI9hHEJx2h2OHjn2I8sXIjO" doc:name="Salesforce"/>
+ -->    <data-mapper:config name="JSON_To_List_Contact_" transformationGraphPath="json_to_list_contact_.grf" doc:name="JSON_To_List_Contact_"/>
    
     <flow name="UpdateCustomer" doc:name="UpdateCustomer" initialState="started">
-        <jms:inbound-endpoint queue="amq1" connector-ref="ActiveMQ" doc:name="JMS"/>
+        <jms:inbound-endpoint queue="amq1" connector-ref="Active_MQ" doc:name="JMS"/>
         <data-mapper:transform config-ref="JSON_To_List_Contact_" doc:name="JSON To List&lt;Contact&gt;"/>
         <logger message="#[payload]" level="INFO" doc:name="Logger"/>
         <sfdc:update config-ref="Salesforce" type="Contact" doc:name="Salesforce">
